@@ -1,0 +1,2 @@
+This plugin could be used with bounces processing system to prevent 
+rails mailer from sending mail to blocked addresses.
