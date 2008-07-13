@@ -50,18 +50,17 @@ sub RegisterBounce($$$) {
 #-------------------------------------------------------------------------------
 sub RegisterBounceDomain($$) {
     my ($domain, $dbh) = @_;
-    $domain = $dbh->quote($domain);
     
     # Lookup domain name
-    my $sth = $dbh->prepare("SELECT id FROM domains WHERE name = $domain AND name_crc32 = CRC32($domain)");
-    $sth->execute;
+    my $sth = $dbh->prepare("SELECT id FROM domains WHERE name = ? AND name_crc32 = CRC32(?)");
+    $sth->execute($domain, $domain);
     my $row = $sth->fetchrow_hashref;
     return $row->{id} if $row;
 
     # If not found, create it
     print "Registering domain: $domain\n";
-    $sth = $dbh->prepare("INSERT INTO domains SET name = $domain, name_crc32 = CRC32($domain)");
-    $sth->execute;
+    $sth = $dbh->prepare("INSERT INTO domains SET name = ?, name_crc32 = CRC32(?)");
+    $sth->execute($domain, $domain);
     return $dbh->{'mysql_insertid'};
 }
 
