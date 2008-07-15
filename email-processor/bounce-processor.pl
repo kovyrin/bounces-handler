@@ -52,6 +52,10 @@ sub RegisterBounce($$$) {
     print "BOUNCE: $email with reason $reason\n";
     
     my ($email_user, $email_domain) = split(/\@/, lc($email));
+    unless ($email_user && $email_domain) {
+        print "Invalid email address!\n";
+        exit(1);
+    }
     my $domain_id = RegisterBounceDomain($email_domain, $dbh);
     
     my $level = ($reason eq 'over_quota') ? 'soft' : 'hard';
