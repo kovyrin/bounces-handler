@@ -1,0 +1,15 @@
+test1:
+  mailing_domain: yahoo_com
+  user: test1
+  user_crc32: 2326977762
+  reason: user_unknown
+  level: hard
+  source: bounce
+
+test2:
+  mailing_domain: yahoo_com
+  user: test2
+  user_crc32: 331058520
+  reason: over_quota
+  level: soft
+  source: bounce

@@ -2,7 +2,6 @@ require 'zlib'
 
 class MailingDomain < ActiveRecord::Base
   establish_connection configurations[RAILS_ENV]['bounces_handler']
-  belongs_to :mailing_blacklist
   before_validation :fill_name_crc32_field
 
   def fill_name_crc32_field
