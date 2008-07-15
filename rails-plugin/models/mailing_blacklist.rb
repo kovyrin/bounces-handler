@@ -57,9 +57,10 @@ class MailingBlacklist < ActiveRecord::Base
   def self.ban!(email, level, reason, source = :other)
     parsed_email = parse_email(email)
     
-    domain = MailingDomain.create(:name => parsed_email[:domain])
+    domain = MailingDomain.find_by_name_crc(parsed_email[:domain]) || MailingDomain.create(:name => parsed_email[:domain])
     
     opts = {}
+    opts[:domain_id] = domain.id
     opts[:user] = parsed_email[:user]
     opts[:user_crc32] = Zlib.crc32(parsed_email[:user])
     opts[:reason] = reason.to_s
