@@ -13,3 +13,10 @@ test2:
   reason: over_quota
   level: soft
   source: bounce
+
+test3:
+  mailing_domain: yahoo_com
+  user: test3
+  user_crc32: 1690090958
+  level: soft
+  source: unsubscribe
