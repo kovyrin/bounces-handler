@@ -13,8 +13,9 @@ module ActionMailer
           [ :to, :cc, :bcc ].each do |header|
             blacklist_cleanup_header(mail, header)
           end
+          return mail if mail.destinations.empty?
         end
-
+        
         deliver_without_blacklisting(mail)
       end
 
