@@ -1,5 +1,5 @@
 class MailingBlacklist < ActiveRecord::Base
-  establish_connection configurations[RAILS_ENV]['bounces_handler']
+  establish_connection configurations[RAILS_ENV]['bounces_handler'] if configurations[RAILS_ENV]['bounces_handler']
   set_table_name 'mailing_blacklist'
   belongs_to :mailing_domain, :foreign_key => :domain_id
 

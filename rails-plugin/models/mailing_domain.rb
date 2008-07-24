@@ -1,7 +1,7 @@
 require 'zlib'
 
 class MailingDomain < ActiveRecord::Base
-  establish_connection configurations[RAILS_ENV]['bounces_handler']
+  establish_connection configurations[RAILS_ENV]['bounces_handler'] if configurations[RAILS_ENV]['bounces_handler']
   before_validation :fill_name_crc32_field
 
   def fill_name_crc32_field
