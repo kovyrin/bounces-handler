@@ -24,6 +24,7 @@ module ActionMailer
       def blacklist_cleanup_header(mail, header_name)
         # Get addrs list from a header
         orig_addrs = mail.send("#{header_name}_addrs".to_sym)
+        return unless orig_addrs
 
         # Clean them up
         res_addrs = orig_addrs.delete_if do |addr|
