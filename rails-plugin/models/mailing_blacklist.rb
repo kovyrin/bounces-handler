@@ -27,7 +27,7 @@ class MailingBlacklist < ActiveRecord::Base
     conditions[:domain_id] = domain.id
     conditions[:user] = parsed_email[:user]
     conditions[:user_crc32] = Zlib.crc32(parsed_email[:user])
-    conditions[:level] = level.to_s if level
+    conditions[:level] = level.to_s if level && level != :soft # soft = hard + soft = all (no need for filter)
     count(:conditions => conditions) > 0
   end
   
