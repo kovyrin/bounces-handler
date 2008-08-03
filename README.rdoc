@@ -58,7 +58,7 @@ Create some non-privileged user account which will be used to process all incomi
 
 You can get the latest version of this package from our github account:
 
-    $ git clone http://github.com/kovyrin/bounces-handler/tree/master
+    $ git clone git://github.com/kovyrin/bounces-handler.git
 
 
 === 3. Set up your DB
@@ -91,6 +91,13 @@ Our Rails plugin has a few parts in it:
   * MailingDomain - this model is related to mailing_domain table and has a set of methods to manage/find domains.
   * MailingBlacklist - more sophisticated and powerful model which is used to manage all blackisting from the Rails side (see sources and specs for details)
 * ActionMailer expension - it is a simple class extension which gives you one class method 'filter_blacklisted(level)' which should be used in all mailer classes where you would like to use our blackists to filter out emails from your mailings.
+
+To install the plugin, you can use the following command:
+
+    ./script/plugin install git://github.com/kovyrin/bounces-handler.git
+
+This will install the whole package in your vendor/plugins directory.
+
 
 === Example Mailer
 
