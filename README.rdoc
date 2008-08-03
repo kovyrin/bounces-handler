@@ -116,7 +116,7 @@ Here I'd like to show you how to use our rails plugin in your mailers:
 In your system you may want to have some places where you'd like to perform ban/unban actions from your code 
 (for example, out-out controller where users could manually unsubscribe from all your mailings).
 
-To ban some email, you shoul use one of the following calls:
+To ban some email, you should use one of the following calls:
 
     MailingBlacklist.ban!(email, level, reason)
     MailingBlacklist.ban!(email, level, reason, source)
@@ -136,3 +136,21 @@ Possible source values, default one is :other :
 * :honeypot - used for email addresses which are known honeypots for spammers
 * :other - used for other situations (you can explain them in your reason field)
 
+
+If you'd like to unban some email, you just call:
+
+    MailingBlacklist.unban!(email)
+
+In this case we remove all blacklisting records for this email and let you send any emails you want 
+(but, if we'll receive some bounces again, we'll ban it again).
+
+If you need to know if some email is banned or not, you should call one of the following methods:
+
+    MailingBlacklist.banned?(email)
+    MailingBlacklist.banned?(email, level)
+    MailingBlacklist.hard_banned?(email)
+    MailingBlacklist.soft_banned?(email)
+
+In our code we use the following idea: if you ask for hard-bans, then we return *true* only if a given address 
+is hard-banned, but if you ask for any ban (or a soft ban) and given address has a hard ban in place, 
+then we'll return true as well (to make sure you won't send your email there).
