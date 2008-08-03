@@ -155,9 +155,17 @@ In our code we use the following idea: if you ask for hard-bans, then we return 
 is hard-banned, but if you ask for any ban (or a soft ban) and given address has a hard ban in place, 
 then we'll return true as well (to make sure you won't send your email there).
 
+
 =Authors and credits
 
 All the code in this package has been developed by Alexey Kovyrin for Scribd.com and is released under the 
 GPLv2 license. For more details, see LICENSE file.
 
+For the bounces processing code we've used Mail::DeliveryStatus::BounceParser CPAN module by Meng Weng Wong.
 
+
+=Links
+
+Author's Blog::				http://blog.kovyrin.net
+Scribd Site::				http://www.scribd.com
+Bounces Parsing Module::	http://search.cpan.org/~freeside/Mail-DeliveryStatus-BounceParser-1.4/BounceParser.pm
