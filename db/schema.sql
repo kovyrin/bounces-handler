@@ -31,7 +31,7 @@ CREATE TABLE `mailing_blacklist` (
   `created_at` timestamp NOT NULL default '0000-00-00 00:00:00' on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`),
   KEY `reports_by_date` (`domain_id`,`user_crc32`,`created_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=566526135 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `mailing_domains`
@@ -44,7 +44,7 @@ CREATE TABLE `mailing_domains` (
   `name` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name_crc32` (`name_crc32`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=419694933 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

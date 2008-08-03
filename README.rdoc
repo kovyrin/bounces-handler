@@ -1,0 +1,84 @@
+= Email Bounces Processing System with Rails plugin
+
+bounces-handler is a simple set of scripts to automatically process email bounces and ISP's feedback 
+loops emails, maintain your mailing blacklists and a Rails plugin to use those blacklists in your
+RoR applications.
+
+This piece of software has been developed as a part of more global work on mailing quality 
+improvement in Scribd.com, but it was one of the most critical steps after setting up reverse 
+DNS records, DKIM and SPF.
+
+
+= Package Structure
+
+This package consists of two parts:
+
+* Perl scripts to process incoming email:
+  * bounces processor -- could be assigned to process all your bounce emails
+  * feedback loops messages processor -- more specific for Scribd, but still - could be modified for your needs.
+* Rails plugin to work with mailing blacklists
+
+
+== Database structure
+
+Our blacklists database structure could be used as an example for your own tables or you 
+can use something really different. In our mailing-related database we have two tables:
+
+* mailing_domains - this table stores a list of all mailing domains we've ever seen in our blacklists/bounces.
+
+  * id - auto-incrementing primary key
+  * name_crc32 - CRC32 hash of the domain name (used as a key for faster domains lookups)
+  * name - domain name
+
+
+* mailing_blacklist - major blacklisting table used for keeping track of all blacklisting 
+  events in the system and all emails related to those events.
+
+  * id - auto-incrementing primary key
+  * domain_id - foreign key to associate a record with a domain
+  * user_crc32 - CRC32 hash of a username part (username@domain.tld) of an email
+  * user - username part (username@domain.tld) of an email
+  * source - shows where a record came from (bounce, unsubscribe request, honeypot email or something else)
+  * level - one of the two possible blacklisting event levels (hard or soft)
+  * reason - short string description of a reason for blacklisting.
+  * created_at - creation timestamp
+
+
+== Bounces processing script
+
+One of the first things I'd recommend you to do (even before you'll start using your blacklists in your mailing code) is to set up bounces processing and configure your MTA appropriately.
+
+
+=== 1. Create bounces user account
+
+Create some non-privileged user account which will be used to process all incoming bounce emails.
+
+
+=== 2. Check-out the code
+
+You can get the latest version of this package from our github account:
+
+    $ git clone http://github.com/kovyrin/bounces-handler/tree/master
+
+
+=== 3. Set up your DB
+
+When you have the latest version of our code, you need to set up the database for our scripts. 
+
+The easiest way to do so it to import 'db/schema.sql' to your database or use 'db/migrate' files to add an appropriate migrations to your Rails application.
+
+=== 4. MySQL configuration
+
+When your DB is ready to use, change mysql credentials in your 'email-processor/bounce-processor.pl' file.
+
+=== 5. Set up your MTA
+
+Next step you need to do is to make your MTA forward all incoming bounces to your script. On a postfix-based mail machine (and some other MTAs) you can use .forward file in your bounces user home directory. For example:
+    
+    bounces@mta:~$ cat .forward 
+    | /home/bounces/bounces-handler/email-processor/bounce-processor.pl
+    
+    bounces@mta:~$
+
+This file says your MTA to send all incoming emails for the 'bounces' user to the STDIN of the specified script. When this file is in place, you can test your configuration by sending your emails to this user and checking the result. When you're ready, make your MTA send all bounces to this user and let it start collecting blacklisted/dead/bad email addresses for you.
+
