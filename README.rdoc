@@ -1,6 +1,6 @@
 = Email Bounces Processing System with Rails plugin
 
-bounces-handler is a simple set of scripts to automatically process email bounces and ISP's feedback 
+Bounces-handler package is a simple set of scripts to automatically process email bounces and ISP's feedback 
 loops emails, maintain your mailing blacklists and a Rails plugin to use those blacklists in your
 RoR applications.
 
@@ -154,3 +154,10 @@ If you need to know if some email is banned or not, you should call one of the f
 In our code we use the following idea: if you ask for hard-bans, then we return *true* only if a given address 
 is hard-banned, but if you ask for any ban (or a soft ban) and given address has a hard ban in place, 
 then we'll return true as well (to make sure you won't send your email there).
+
+=Authors and credits
+
+All the code in this package has been developed by Alexey Kovyrin for Scribd.com and is released under the 
+GPLv2 license. For more details, see LICENSE file.
+
+
