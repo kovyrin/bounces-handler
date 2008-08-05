@@ -102,7 +102,7 @@ sub HandleFeedback($) {
     my $dbh = DBI->connect("DBI:mysql:database=$mysql_db;host=$mysql_host", $mysql_user, $mysql_pass, {'RaiseError' => 1});
     
     # Register the record
-    RegisterBounce($email, 'feedback-loop', $dbh);
+    RegisterBounce($email, 'feedback-loop', $dbh, 'soft');
     
     exit(0)
 }

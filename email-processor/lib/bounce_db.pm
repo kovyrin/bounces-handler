@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 sub RegisterBounce($$$) {
-    my ($email, $reason, $dbh) = @_;
+    my ($email, $reason, $dbh, $level) = @_;
     print "BOUNCE: $email with reason $reason\n";
     
     my ($email_user, $email_domain) = split(/\@/, lc($email));
@@ -10,7 +10,7 @@ sub RegisterBounce($$$) {
     }
     my $domain_id = RegisterBounceDomain($email_domain, $dbh);
     
-    my $level = ($reason eq 'over_quota') ? 'soft' : 'hard';
+    $level ||= ($reason eq 'over_quota') ? 'soft' : 'hard';
     RegisterBounceEmail($email_user, $domain_id, $reason, $level, $dbh);
 }
 
