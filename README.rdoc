@@ -60,6 +60,8 @@ You can get the latest version of this package from our github account:
 
     $ git clone git://github.com/kovyrin/bounces-handler.git
 
+To run the script you'll need to install the following CPAN modules (at least): DBI, DBD::mysql, Mail::DeliveryStatus::BounceParser, Email::MIME.
+
 
 === 3. Set up your DB
 
@@ -82,6 +84,12 @@ Next step you need to do is to make your MTA forward all incoming bounces to you
 
 This file says your MTA to send all incoming emails for the 'bounces' user to the STDIN of the specified script. When this file is in place, you can test your configuration by sending your emails to this user and checking the result. When you're ready, make your MTA send all bounces to this user and let it start collecting blacklisted/dead/bad email addresses for you.
 
+
+== Feedback Loops Processing Script
+
+Along with the bounces handling script, we have a simple scaffold-like script to handle ISP's feedback loops emails (when they forward you all emails on which users clicked 'Report as Spam').
+
+To use this script, you need to do all the stuff I've explained above for the bounces-processor, but forward your feedback loops emails to the feedback-loop-processor.pl script.
 
 == Rails plugin
 

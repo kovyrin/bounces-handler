@@ -3,13 +3,12 @@
 use strict;
 use Cwd;
 use File::Basename;
+use DBI;
+use Data::Dumper;
+use Email::MIME;
 
 our $SELF_DIR = dirname(Cwd::abs_path(__FILE__));
 require $SELF_DIR . '/lib/bounce_db.pm';
-
-use DBI;
-use Email::ARF::Report;
-use Data::Dumper;
 
 #-------------------------------------------------------------------------------
 
