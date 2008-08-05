@@ -77,7 +77,7 @@ class MailingBlacklist < ActiveRecord::Base
 private
 
   def self.parse_email(email)
-    user, domain = email.downcase.split(/@/)
+    user, domain = email.to_s.downcase.split(/@/)
     { :user => user, :domain => domain }
   end
 
