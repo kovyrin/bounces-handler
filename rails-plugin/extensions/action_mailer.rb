@@ -9,10 +9,12 @@ module ActionMailer
 
     module BouncesHandlerInstanceMethods
       def deliver!(mail = @mail)
+        # Cleanup all headers used for recepients specification
         if mail
           [ :to, :cc, :bcc ].each do |header|
             blacklist_cleanup_header(mail, header)
           end
+          # Do not send this email if the destination list is empty
           return mail if !mail.destinations || mail.destinations.empty?
         end
         
@@ -26,9 +28,11 @@ module ActionMailer
         orig_addrs = mail.send("#{header_name}_addrs".to_sym)
         return unless orig_addrs
 
-        # Clean them up
-        res_addrs = orig_addrs.delete_if do |addr|
-          MailingBlacklist.banned?(addr.spec, blacklist_level)
+        # Clean them up (can't use delete_if for AddressGroups)
+        res_addrs = []
+        orig_addrs.each do |addr|
+          next if MailingBlacklist.banned?(addr.spec, blacklist_level)
+          res_addrs << addr
         end
         
         # Assign addrs list back

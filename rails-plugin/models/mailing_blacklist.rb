@@ -18,11 +18,16 @@ class MailingBlacklist < ActiveRecord::Base
   end
 
   def self.banned?(email, level = nil)
+    # Reject invalid emails
+    return true unless valid_email?(email)
+
     parsed_email = parse_email(email)
-    
+
+    # Check if domain exists in the system
     domain = MailingDomain.find_by_name_crc(parsed_email[:domain])
     return false unless domain
     
+    # Find blacklisting records
     conditions = {}
     conditions[:domain_id] = domain.id
     conditions[:user] = parsed_email[:user]
@@ -81,4 +86,8 @@ private
     { :user => user, :domain => domain }
   end
 
+  def self.valid_email?(email)
+    return false unless email
+    !! email.match(/^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$/)
+  end
 end

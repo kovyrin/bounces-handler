@@ -30,6 +30,24 @@ describe MailingBlacklist, "ban-detecting features" do
     MailingBlacklist.listings_for_email('test1@yahoo.com').should have(1).item
     MailingBlacklist.listings_for_email('test2@yahoo.com').should have(1).item
   end
+
+  it "should report bans on an invalid emails" do
+    MailingBlacklist.banned?('blah').should be_true
+    MailingBlacklist.banned?('blah.com').should be_true
+    MailingBlacklist.banned?('blah#xxx.com').should be_true
+    MailingBlacklist.banned?('@xxx').should be_true
+    MailingBlacklist.banned?('@xxx.com').should be_true
+    MailingBlacklist.banned?('blah@xxx').should be_true
+    MailingBlacklist.banned?('blah@x.x').should be_true
+  end
+
+  it "should not report bans on an invalid emails" do
+    MailingBlacklist.banned?('blah@blah.com').should be_false
+    MailingBlacklist.banned?('blah-xx@blah.com').should be_false
+    MailingBlacklist.banned?('blah.xx@blah.com').should be_false
+    MailingBlacklist.banned?('blah@t.xx').should be_false
+  end
+
 end
 
 describe MailingBlacklist, "banning/unbanning features" do
