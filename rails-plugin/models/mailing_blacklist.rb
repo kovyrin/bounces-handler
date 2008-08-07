@@ -87,7 +87,7 @@ private
   end
 
   def self.valid_email?(email)
-    return false unless email
+    return false unless email && email.size < 50
     !! email.match(/^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$/)
   end
 end
