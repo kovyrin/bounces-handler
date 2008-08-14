@@ -70,4 +70,12 @@ describe MailingBlacklist, "banning/unbanning features" do
    MailingBlacklist.ban!('test@yahoo.ca', :hard, 'test reason').should be_valid
    MailingBlacklist.banned?('test@yahoo.ca').should be_true
  end
+ 
+ it "should not fail to ban an invalid email address" do
+   lambda { MailingBlacklist.ban!('test', :hard, 'test reason') }.should_not raise_error
+ end
+
+ it "should not fail to unban an invalid email address" do
+   lambda { MailingBlacklist.unban!('test') }.should_not raise_error
+ end
 end

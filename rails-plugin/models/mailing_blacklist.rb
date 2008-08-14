@@ -4,6 +4,9 @@ class MailingBlacklist < ActiveRecord::Base
   belongs_to :mailing_domain, :foreign_key => :domain_id
 
   def self.listings_for_email(email, level = nil)
+    # Reject invalid emails
+    return [] unless valid_email?(email)
+
     parsed_email = parse_email(email)
     
     domain = MailingDomain.find_by_name_crc(parsed_email[:domain])
@@ -47,6 +50,9 @@ class MailingBlacklist < ActiveRecord::Base
   end
 
   def self.unban!(email)
+    # Reject invalid emails
+    return unless valid_email?(email)
+
     parsed_email = parse_email(email)
     
     domain = MailingDomain.find_by_name_crc(parsed_email[:domain])
@@ -60,6 +66,9 @@ class MailingBlacklist < ActiveRecord::Base
   end
   
   def self.ban!(email, level, reason, source = :other)
+    # Reject invalid emails
+    return unless valid_email?(email)
+
     parsed_email = parse_email(email)
     
     domain = MailingDomain.find_by_name_crc(parsed_email[:domain]) || MailingDomain.create(:name => parsed_email[:domain])
